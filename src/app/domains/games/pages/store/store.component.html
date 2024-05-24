@@ -1,0 +1,123 @@
+<div class="button-container" style="display: flex; justify-content: center; ">
+  <button class="btn text-white mx-2 mt-5 mb-5" style="background-color: #e76c5e;" onclick="addGameModal.showModal()"> 
+      Añadir juego 
+  </button>
+</div>
+
+<main class="mb-20 flex flex-row flex-wrap justify-center gap-20">
+
+    @for (item of listGames(); track $index) {
+      @if(item.name.toLocaleLowerCase().startsWith(filterString().toLocaleLowerCase())) {
+      <app-game [game]="item"></app-game>
+      }
+    }
+
+    <dialog id="addGameModal" #addGameModal class="modal">
+        <div class="modal-box flex flex-col items-center">
+          <h3 class="font-bold text-lg">Datos del videojuego</h3>
+          <div class="modal-action">
+            <form [formGroup]="addGame" method="dialog">
+
+              <div class="flex flex-col">
+                <label class="form-control w-full max-w-xs">
+                  <div class="label">
+                    <span class="label-text">ID</span>
+                  </div>
+                  <input placeholder="Introduzca el ID" formControlName="gameID" #gameID type="text"
+                    class="input input-bordered input-error w-full max-w-xs" />
+                </label>
+              </div>
+
+              <div class="flex flex-col">
+                <label class="form-control w-full max-w-xs">
+                  <div class="label">
+                    <span class="label-text">Videojuego</span>
+                  </div>
+                  <input placeholder="Introduzca el nombre" formControlName="gameName" type="text"
+                    class="input input-bordered input-error w-full max-w-xs" />
+                </label>
+              </div>
+
+              <div class="flex flex-col">
+                <label class="form-control w-full max-w-xs">
+                  <div class="label">
+                    <span class="label-text">Precio</span>
+                  </div>
+                  <input formControlName="gamePrice" min="1" type="number"
+                    class="input input-bordered input-error w-full max-w-xs" />
+                </label>
+              </div>
+
+              <div class="flex flex-col">
+                <label class="form-control w-full max-w-xs">
+                  <div class="label">
+                    <span class="label-text">Plataforma</span>
+                  </div>
+                  <select class="select select-error w-full max-w-xs" formControlName="gamePlatform">
+                    <option disabled selected>*Plataformas*</option>
+                    <option>PlayStation 5</option>
+                    <option>Nintendo Switch</option>
+                    <option>Xbox Series</option>
+                    <option>PC</option>
+                    <option>Steam Deck</option>
+                    <option>Smartphones</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="flex flex-col">
+                <label class="form-control w-full max-w-xs">
+                  <div class="label">
+                    <span class="label-text">Valoración</span>
+                  </div>
+                  <input formControlName="gameRating" placeholder="Entre 1 y 5" min="1" max="5" type="number"
+                    class="input input-bordered input-error w-full max-w-xs" />
+                </label>
+              </div>
+
+              <div class="flex flex-col">
+                <label class="form-control w-full max-w-xs">
+                  <div class="label">
+                    <span class="label-text">Categoría</span>
+                  </div>
+                  <select class="select select-error w-full max-w-xs" formControlName="gameCategory">
+                    <option disabled selected>*Categorías*</option>
+                    <option>Acción</option>
+                    <option>Aventura</option>
+                    <option>Deportes</option>
+                    <option>Simulación</option>
+                    <option>Estrategia</option>
+                    <option>Terror</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="flex flex-col">
+                <label class="form-control w-full max-w-xs">
+                  <div class="label">
+                    <span class="label-text">Descripción</span>
+                  </div>
+                  <textarea class="textarea textarea-error" placeholder="Descripción..." formControlName="gameDescription"></textarea>
+                </label>
+              </div> 
+    
+              <div class="flex flex-col">
+                <label class="form-control w-full max-w-xs">
+                  <div class="label">
+                    <span class="label-text">Imagen videojuego</span>
+                  </div>
+                  <input type="file" class="file-input file-input-bordered w-full max-w-xs" accept="image/*" (change)="uploadPhoto($event)" />
+                </label>
+              </div>
+              
+    
+              <div class="flex gap-3 mt-5">
+                <button class="btn btn-active">Cancelar</button>
+                <button (click)="submit()" class="btn btn-success" type="submit">Añadir</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </dialog>
+  
+</main>

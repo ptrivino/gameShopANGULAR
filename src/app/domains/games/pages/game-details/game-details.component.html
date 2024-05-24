@@ -1,0 +1,28 @@
+<div class="hero min-h-screen bg-base-400">
+    <div class="hero-content flex-col lg:flex-row">
+        <div class="indicator" style="display: flex; flex-direction: column;">
+            <h1 class="text-5xl font-bold mb-7">{{ gameDetails()?.name }}</h1>
+            <img [src]="gameDetails()?.image" class="max-w-sm rounded-lg shadow-2xl" />
+            <ul class="text-center">
+                <li>
+                    <label class="font-semibold">Categoría:</label> {{ gameDetails()?.category }}
+                </li>
+                <li class="text-5xl font-semibold">
+                    {{ gameDetails()?.price }} €
+                </li>
+            </ul>
+        </div>
+        <div class="ml-8 text-xl">
+            <label class="font-semibold w-20">Plataformas:</label> {{ gameDetails()?.platform }}
+            
+            <ul class="space-y-5">
+                <li>
+                    <label class="font-semibold">Valoración:</label> {{ gameDetails()?.rating }}
+                </li>
+                <li>
+                    <label class="font-semibold">Descripción:</label> {{ gameDetails()?.description }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
