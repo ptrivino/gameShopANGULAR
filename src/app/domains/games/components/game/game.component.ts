@@ -1,13 +1,16 @@
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Juego } from '../../../shared/models/juego';
 import { GameService } from '../../../shared/services/game.service'; 
+
+import { StoreComponent } from '../../pages/store/store.component';
+
 import { RouterLinkWithHref } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [RouterLinkWithHref],
+  imports: [RouterLinkWithHref,StoreComponent],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
@@ -42,12 +45,12 @@ export class GameComponent {
   }
 
   editGame(game: Juego) {
-    if (this.gameID) {
-    //this.gameID.nativeElement.value = game.id;
+    // this.addGameModal.nativeElement.showModal();
+    console.log(this.gameID);
     console.log(this.gameID.nativeElement);
-    } else {
-        console.error('gameID is undefinded')
-    }
+    
+    // this.gameID.nativeElement.value = game.id;
+ 
   }
 
 

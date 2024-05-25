@@ -6,11 +6,47 @@
 
 <main class="mb-20 flex flex-row flex-wrap justify-center gap-20">
 
+  <!-- 
     @for (item of listGames(); track $index) {
       @if(item.name.toLocaleLowerCase().startsWith(filterString().toLocaleLowerCase())) {
       <app-game [game]="item"></app-game>
       }
     }
+    -->
+
+    <div *ngFor="let game of listGames()">
+      <div class="indicator">
+        <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    
+            <span (click)="deleteGame(game.id!)" class="indicator-item indicator-top indicator-start badge badge-error">
+                <button ><i class="fa-solid fa-trash"></i></button>
+            </span>
+            <span class="indicator-item indicator-top indicator-end badge badge-success">
+                <!--<button onclick="addGameModal.showModal()"><i class="fa-solid fa-pen"></i></button>-->
+                <button onclick="addGameModal.showModal()" (click)="editGame(game)" ><i class="fa-solid fa-pen"></i></button>
+                
+            </span>
+    
+            <a [routerLink]="['/details', game.id]">
+                <img [src]="game.image"/>
+            </a>
+            <div class="px-5 pb-5">
+                <a [routerLink]="['/details', game.id]">
+                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                        {{ game.name }}
+                    </h5>
+                </a>
+                <div class="flex items-center justify-between">
+                    <span class="text-3xl font-bold text-gray-900 dark:text-white">
+                        {{ game.price }} €
+                    </span>
+                    <a class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5">Ver producto</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
 
     <dialog id="addGameModal" #addGameModal class="modal">
         <div class="modal-box flex flex-col items-center">
@@ -113,7 +149,7 @@
     
               <div class="flex gap-3 mt-5">
                 <button class="btn btn-active">Cancelar</button>
-                <button (click)="submit()" class="btn btn-success" type="submit">Añadir</button>
+                <button (click)="submit()" class="btn btn-success" type="submit">Guardar Juego</button>
               </div>
             </form>
           </div>

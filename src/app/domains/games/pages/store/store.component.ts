@@ -1,4 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component,ViewChild,ElementRef,  inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Asegúrate de importar CommonModule
+
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { GameComponent } from '../../components/game/game.component';
@@ -6,14 +8,18 @@ import { Juego } from '../../../shared/models/juego';
 import { GameService } from '../../../shared/services/game.service'; 
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
+import { RouterLinkWithHref } from '@angular/router';
+
 @Component({
   selector: 'app-store',
   standalone: true,
-  imports: [GameComponent, HeaderComponent, FooterComponent, ReactiveFormsModule],
+  imports: [GameComponent, HeaderComponent, FooterComponent, ReactiveFormsModule,CommonModule, RouterLinkWithHref],
   templateUrl: './store.component.html',
   styleUrl: './store.component.css'
 })
 export class StoreComponent {
+
+
 
   listGames = signal<Juego[]>([]);
   private gameService = inject(GameService);
@@ -42,7 +48,7 @@ export class StoreComponent {
   filePath: string = "";
 
   addGame = new FormGroup({
-    gameId: new FormControl(''),
+    gameID: new FormControl(''),
     gameName: new FormControl('', [Validators.required, Validators.minLength(3)]),
     gamePrice: new FormControl('', [Validators.required, Validators.min(1)]),
     gamePlatform: new FormControl(''),
@@ -53,7 +59,7 @@ export class StoreComponent {
 
   submit() {
     let newGame: Juego = {
-      id: this.addGame.value.gameId!,
+      id: this.addGame.value.gameID!,
       name: this.addGame.value.gameName!,
       price: Number(this.addGame.value.gamePrice)!,
       platform: this.addGame.value.gamePlatform!,
@@ -72,6 +78,39 @@ export class StoreComponent {
     this.addGame.controls.gameDescription.setValue("");
 
   };
+
+  editGame(game: Juego) {
+
+    console.log(game.id);
+    this.addGame.setValue({
+      gameID: game.id || '',
+      gameName: game.name || '',
+      gamePrice: game.price !== undefined ? game.price.toString() : '',
+      gamePlatform: game.platform || '',
+      gameRating: game.rating !== undefined ? game.rating.toString() : '',
+      gameCategory: game.category || '',
+      gameDescription: game.description || ''
+    });
+
+    this.games = this.games.filter(game => game.id !== game.id);
+    // Open the modal
+    // this.addGameModal.nativeElement.showModal();
+ 
+  }
+
+  games: Juego[] = [];
+
+  deleteGame(id: string) {
+    this.gameService.deleteGame(id).subscribe(
+      (deletedGames: Juego[]) => {
+        console.log('Juego eliminado', deletedGames);
+        this.games = this.games.filter(game => game.id !== id);
+      },
+      (error) => {
+        console.error('Error al eliminar el juego', error);
+      }
+    );
+  }
 
 
   async uploadPhoto(event: any) {
