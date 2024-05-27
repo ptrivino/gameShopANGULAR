@@ -82,7 +82,7 @@ export class StoreComponent {
     };
     
     // Verificar si el id no es nulo y el filePath no es nulo, vacío o indefinido
-    if (newGame.id && this.filePath) {
+    if ((newGame.id != "" && this.filePath != "") || (newGame.id == "" && this.filePath != "")) {
       newGame.image = `${this.myBucket}${this.filePath}`;
     }
 

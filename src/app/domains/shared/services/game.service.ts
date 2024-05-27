@@ -43,11 +43,13 @@ export class GameService {
         .update(newGame)
         .eq('id', newGame.id)
         .select('*')
+        .order('id', { ascending: true })
         ).subscribe(response => {
           
           from(this.supabase
             .from('games')
             .select('*')
+            .order('id', { ascending: true })
           ).subscribe(response => {
             let updatedGameList = response.data as Juego[];
             this.gameList.set(updatedGameList);
@@ -78,6 +80,7 @@ export class GameService {
     from(this.supabase
       .from('games')
       .select('*')
+      .order('id', { ascending: true })
       .then(response => {
         let result = response.data as Juego[];
         this.gameList.set(result);
