@@ -26,9 +26,10 @@ export class GameService {
     if (newGame.id == ""){
       from(this.supabase
         .from('games') 
-        .insert([
+        /*.insert([
           { name: newGame.name, price: newGame.price, image: newGame.image, platform: newGame.platform, rating: newGame.rating, category: newGame.category, description: newGame.description },
-        ])
+        ])*/
+        .insert([newGame])
         .select()
         .then(response => {
           let result = response.data as Juego[];
@@ -38,13 +39,21 @@ export class GameService {
     } else {
       from(this.supabase
         .from('games')
-        .update({ name: newGame.name, price: newGame.price, image: newGame.image, platform: newGame.platform, rating: newGame.rating, category: newGame.category, description: newGame.description})
+        // .update({ name: newGame.name, price: newGame.price, image: newGame.image, platform: newGame.platform, rating: newGame.rating, category: newGame.category, description: newGame.description})
+        .update(newGame)
         .eq('id', newGame.id)
-        .then(response => {
-          let result = response.data as unknown as Juego[];
-          this.gameList.update(currentGameList => [...currentGameList, result[0]]);
-        })
-      );    
+        .select('*')
+        ).subscribe(response => {
+          
+          from(this.supabase
+            .from('games')
+            .select('*')
+          ).subscribe(response => {
+            let updatedGameList = response.data as Juego[];
+            this.gameList.set(updatedGameList);
+          });
+
+        });    
     }
   }
 

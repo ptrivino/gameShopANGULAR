@@ -58,6 +58,7 @@ export class StoreComponent {
   });
 
   submit() {
+    /*
     let newGame: Juego = {
       id: this.addGame.value.gameID!,
       name: this.addGame.value.gameName!,
@@ -68,8 +69,26 @@ export class StoreComponent {
       description: this.addGame.value.gameDescription!,
       image: `${this.myBucket}${this.filePath}`
     }
+    */
+   
+    let newGame: Juego = {
+      id: this.addGame.value.gameID!,
+      name: this.addGame.value.gameName!,
+      price: Number(this.addGame.value.gamePrice)!,
+      platform: this.addGame.value.gamePlatform!,
+      rating: Number(this.addGame.value.gameRating)!,
+      category: this.addGame.value.gameCategory!,
+      description: this.addGame.value.gameDescription!,
+    };
+    
+    // Verificar si el id no es nulo y el filePath no es nulo, vacío o indefinido
+    if (newGame.id && this.filePath) {
+      newGame.image = `${this.myBucket}${this.filePath}`;
+    }
+
     this.gameService.addGame(newGame);
 
+    this.addGame.controls.gameID.setValue("");
     this.addGame.controls.gameName.setValue("");
     this.addGame.controls.gamePrice.setValue("");
     this.addGame.controls.gamePlatform.setValue("");
@@ -78,6 +97,19 @@ export class StoreComponent {
     this.addGame.controls.gameDescription.setValue("");
 
   };
+
+  addGameForm(){
+    this.addGame.setValue({
+      gameID: '',
+      gameName: '',
+      gamePrice: '',
+      gamePlatform: '',
+      gameRating: '',
+      gameCategory: '',
+      gameDescription: ''
+    });
+
+  }
 
   editGame(game: Juego) {
 
